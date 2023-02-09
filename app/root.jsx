@@ -8,6 +8,7 @@ import {
 } from '@remix-run/react'
 import styles from '~/styles/index.css' // al colocar '~' ayuda a redirigir por defecto desde ./app/ como se muestra en tsconfig.json en paths
 import Header from '~/components/header'
+import Footer from '~/components/footer'
 
 //Para mejorar el seo
 export function meta() {
@@ -69,6 +70,7 @@ function Document({children}) {
             <body>
                 <Header/>
                 {children}
+                <Footer/>
 
                 {/* Ayuda a que no se refresque la pag cada vez que se navega desde el nav. */}
                 <Scripts/> 
