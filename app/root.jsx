@@ -4,6 +4,8 @@ import {
     Outlet,
     Scripts,
     LiveReload,
+    useCatch,
+    Link,
 
 } from '@remix-run/react'
 import styles from '~/styles/index.css' // al colocar '~' ayuda a redirigir por defecto desde ./app/ como se muestra en tsconfig.json en paths
@@ -12,7 +14,7 @@ import Footer from '~/components/footer'
 
 //Para mejorar el seo
 export function meta() {
-    return(
+    return (
         {
             charset: 'utf-8',
             title: 'GuitarLA - Remix',
@@ -23,13 +25,13 @@ export function meta() {
 
 
 //Para enlazar hojas de estilos
-export function links(){
-    return[
+export function links() {
+    return [
         {
             rel: 'stylesheet',
             href: 'https://necolas.github.io/normalize.css/8.0.1/normalize.css'
         },
-       
+
         //Agregar fuentes de google fonts
         {
             rel: 'preconnect',
@@ -53,30 +55,51 @@ export function links(){
 }
 
 export default function App() {
-    return(
+    return (
         <Document>
-            <Outlet/>
+            <Outlet />
         </Document>
-    ) 
+    )
 }
 //Reemplaza el html común
-function Document({children}) {
+function Document({ children }) {
     return (
         <html lang="es">
             <head>
-                <Meta/>
-                <Links/>
+                <Meta />
+                <Links />
             </head>
             <body>
-                <Header/>
+                <Header />
                 {children}
-                <Footer/>
+                <Footer />
 
                 {/* Ayuda a que no se refresque la pag cada vez que se navega desde el nav. */}
-                <Scripts/> 
+                <Scripts />
                 {/* Para aplicar cambios automaticos en desarrollo */}
-                <LiveReload/> 
+                <LiveReload />
             </body>
         </html>
+    )
+}
+
+/** Manejo de errores */
+export function CatchBoundary() {
+    const error = useCatch()
+
+    return (
+        <Document>
+            <p className='error'> {error.status} {error.statusText}</p>
+            <Link className='error-enlace' to='/'>Tal vez quieras volver a la página principal</Link>
+        </Document>
+    )
+}
+
+export function ErrorBoundary({ error }) {
+    return (
+        <Document>
+            <p className='error'> {error.status} {error.statusText}</p>
+            <Link className='error-enlace' to='/'>Tal vez quieras volver a la página principal</Link>
+        </Document>
     )
 }
